@@ -312,5 +312,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/etc/telephony/N958St_Z0-.xml:system/etc/telephony/N958St_Z0-.xml \
     $(LOCAL_PATH)/etc/telephony/NX505J_Z0-0.xml:system/etc/telephony/NX505J_Z0-0.xml \
     $(LOCAL_PATH)/etc/telephony/NX507J_Z0-0.xml:system/etc/telephony/NX507J_Z0-0.xml \
-    $(LOCAL_PATH)/etc/telephony/NX404H_Z93.xml.xml:system/etc/telephony/NX404H_Z93.xml \
+    $(LOCAL_PATH)/etc/telephony/NX404H_Z93.xml:system/etc/telephony/NX404H_Z93.xml \
     $(LOCAL_PATH)/etc/telephony/NX501J_Z0.xml:system/etc/telephony/NX501J_Z0.xml 
+
+# Changelog
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/etc/CHANGELOG-X9180.txt:/etc/CHANGELOG-X9180.txt
