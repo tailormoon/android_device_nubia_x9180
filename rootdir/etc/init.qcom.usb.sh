@@ -80,69 +80,47 @@ case "$usbcurrentlimit" in
 	;;
     esac
 esac
-if [ -f "/persist/property/persist.sys.usb.factory" ];then
-	cat /persist/property/persist.sys.usb.factory | while read myline
+
+#
+# ZTEMT: Allow USB enumeration with or without debug port
+#
+if [ -f "/persist/property/persist.sys.usb.factory" ]; then
+	cat /persist/property/persist.sys.usb.factory | while read line
 	do
-		case $myline in
-			0)
-				setprop persist.sys.usb.factory 0
-			;;
-			*)
-				setprop persist.sys.usb.factory 1
-			;;
-		esac
-		echo "LINE:"$myline
+		setprop persist.sys.usb.factory $line
 	done
-else
-	setprop persist.sys.usb.factory 1
+	rm /persist/property/persist.sys.usb.factory
 fi
+
 #
 # Allow USB enumeration with default PID/VID
 #
 baseband=`getprop ro.baseband`
-echo 1  > /sys/class/android_usb/f_mass_storage/lun/nofua
+echo 1 > /sys/class/android_usb/f_mass_storage/lun/nofua
+echo 1 > /sys/class/android_usb/f_mass_storage/lun1/nofua
 usb_config=`getprop persist.sys.usb.config`
-case "$usb_config" in
-    "" | "adb") #USB persist config not set, select default configuration
-        setprop persist.sys.usb.config nubia,adb
-    ;;
-    "none") #default configuration for product release
-        setprop persist.sys.usb.config nubia
-	;;
-    * ) ;; #USB persist config exists, do nothing
-esac
+build_type=`getprop ro.build.type`
+
+#case "$usb_config" in
+#    "" | "adb" | "none") #USB persist config not set, select default configuration
+#      case "$build_type" in
+#          "eng" | "userdebug")
+#             setprop persist.sys.usb.config nubia,adb
+#           ;;
+#          *) 	
+#            setprop persist.sys.usb.config nubia
+#           ;;
+#      esac
+#     ;;
+#	  * ) ;; #USB persist config exists, do nothing
+#esac	 		
 
 #
 # Add support for exposing lun0 as cdrom in mass-storage
 #
 target=`getprop ro.product.device`
-#cdromname="/system/etc/cdrom_install.iso"
-
-#echo "mounting usbcdrom lun"
+#cdromname="/system/driver.iso"
 #echo $cdromname > /sys/class/android_usb/android0/f_mass_storage/lun0/file
-
-#cdromenable=`getprop persist.service.cdrom.enable`
-#case "$target" in
-#        "msm8226" | "msm8610")
-#                case "$cdromenable" in
-#                        0)
-#                                echo "" > /sys/class/android_usb/android0/f_mass_storage/lun0/file
-#                                ;;
-#                        1)
-#                                echo "mounting usbcdrom lun"
-#                                echo $cdromname > /sys/class/android_usb/android0/f_mass_storage/lun0/file
-#                                ;;
-#                esac
-#                ;;
-#esac
-
-# Force exposing lun0 as mass-storage
-echo 0 > /sys/devices/platform/msm_hsusb/gadget/lun0/cdrom
-echo 0 > /sys/devices/platform/msm_hsusb/gadget/lun1/cdrom
-echo 0 > /sys/devices/platform/msm_hsusb/gadget/lun0/ro
-echo 0 > /sys/devices/platform/msm_hsusb/gadget/lun1/ro
-echo 1 > /sys/devices/platform/msm_hsusb/gadget/lun0/removable
-echo 1 > /sys/devices/platform/msm_hsusb/gadget/lun1/removable
 
 #
 # Do target specific things

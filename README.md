@@ -1,56 +1,25 @@
-Device configuration for the ZTE V5 RedBull (X9180)
-===============================
+Copyright 2015 - The CyanogenMod Project
 
-Local manifest for CM12.1, BlissPop, PAC, temasek:
+Device configuration for Nubia Z7 Mini.
+=====================================
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<manifest>
-  <remote fetch="ssh://git@gitlab.com" name="gitlab" />
+Basic   | Spec Sheet
+-------:|:-------------------------
+CPU     | Quad-core 1.2 GHz Krait 400
+CHIPSET | Qualcomm MSM8926 Snapdragon 400
+GPU     | Adreno 305
+SIM     | Dual SIM (Micro-SIM, dual stand-by)
+Memory  | 2GB RAM
+Shipped Android Version | 4.4.2 (KitKat)
+Storage | 16GB
+MicroSD | Up to 64GB
+Battery | 2300 mAh 
+Dimensions | 140,9  x 69,3  x 8,19 mm
+Weight  | 143 g
+Display | 1920 x 1080 pixels, 5.0 in IPS LCD
+Rear Camera  | 13 MP
+Front Camera | 5 MP
+Release Date | July 2014
 
-  <project name="CyanogenMod/android_device_qcom_common" path="device/qcom/common" remote="github" revision="cm-12.1" />
-  <project name="CyanogenMod/android_hardware_qcom_fm" path="hardware/qcom/fm" remote="github" revision="cm-12.1" />
 
-  <project name="X9180/android_kernel_zte_x9180.git" path="kernel/ZTE/X9180" remote="gitlab" revision="cm-12.1" />
-  <project name="X9180/android_device_zte_x9180.git" path="device/ZTE/X9180" remote="gitlab" revision="cm-12.1" />
-  <project name="X9180/android_device_zte_x9180_proprietary.git" path="vendor/ZTE/X9180" remote="gitlab" revision="cm-12.1" />
-
-</manifest>
-```
-
-Local manifest for MoKee L:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<manifest>
-  <remote fetch="ssh://git@gitlab.com" name="gitlab" />
-
-  <project name="MoKee/android_device_qcom_common" path="device/qcom/common" />
-  <project name="MoKee/android_hardware_qcom_fm" path="hardware/qcom/fm" />
-
-  <project name="X9180/android_kernel_zte_x9180.git" path="kernel/ZTE/X9180" remote="gitlab" revision="cm-12.1" />
-  <project name="X9180/android_device_zte_x9180.git" path="device/ZTE/X9180" remote="gitlab" revision="cm-12.1" />
-  <project name="X9180/android_device_zte_x9180_proprietary.git" path="vendor/ZTE/X9180" remote="gitlab" revision="cm-12.1" />
-
-</manifest>
-```
-
-Make rule for PAC ROM (vendor/pac/products/pac_X9180.mk):
-
-```sh
-# Check for target product
-ifeq (pac_X9180,$(TARGET_PRODUCT))
-
-# Bootanimation
-PAC_BOOTANIMATION_NAME := 720
-
-# include PAC common configuration
-include vendor/pac/config/pac_common.mk
-
-# Inherit CM device configuration
-$(call inherit-product, device/ZTE/X9180/cm.mk)
-
-PRODUCT_NAME := pac_X9180
-
-endif
-```
+![Nubia Z7Mini](http://cdn2.gsmarena.com/vv/pics/zte/zte-nubia-z7-mini-1.jpg "Nubia Z7Mini")

@@ -15,17 +15,29 @@
 -->
 
 <resources>
+
+    <bool name="world_phone">true</bool>
+
     <!-- Determine whether calls to mute the microphone in PhoneUtils
-         are routed through the android.media.AudioManager class (true) or through
+                  are routed through the android.media.AudioManager class (true) or through
          the com.android.internal.telephony.Phone interface (false). -->
     <bool name="send_mic_mute_to_AudioManager">true</bool>
-
-    <!-- This device implements a noise suppression device for in call audio-->
     <bool name="has_in_call_noise_suppression">true</bool>
+    <bool name="csp_enabled">false</bool>
 
+    <!-- Show enabled lte option for lte device -->
+    <bool name="config_enabled_lte" translatable="false">false</bool>
+    <bool name="config_show_cdma">false</bool>
+    <bool name="config_hardcodeDefaultMobileNetworks">false</bool>
+
+    <!-- Show enabled tdscdma option for device -->
+    <bool name="config_support_tdscdma" translatable="false">true</bool>
+
+    <!-- Show APN Settings for some CDMA carriers -->
+    <bool name="config_show_apn_setting_cdma">true</bool>
+
+    <bool name="config_uplmn_for_usim">true</bool>
     <!-- Flag whether to enable Proximity setting-->
     <bool name="config_proximity_enable" translatable="false">true</bool>
 
-    <!-- Flag indicating if the phone is a world phone -->
-    <bool name="world_phone">true</bool>
 </resources>

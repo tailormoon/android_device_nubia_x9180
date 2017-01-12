@@ -13,53 +13,46 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-MK_TOOLCHAIN_VARIANT := uber
+# inherit from the proprietary version
+-include vendor/NUBIA/X9180/BoardConfigVendor.mk
 
--include vendor/zte/x9180/BoardConfigVendor.mk
+LOCAL_PATH := device/NUBIA/X9180
 
-LOCAL_PATH := device/zte/x9180
+PRODUCT_COPY_FILES := $(filter-out frameworks/base/data/keyboards/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
+	frameworks/base/data/keyboards/Generic.kl:system/usr/keylayout/Generic.kl \
+	frameworks/base/data/keyboards/Generic.kcm:system/usr/keychars/Generic.kcm, $(PRODUCT_COPY_FILES))
 
-PRODUCT_COPY_FILES := $(filter-out frameworks/base/data/keyboards/Generic.kl:system/usr/keylayout/Generic.kl , $(PRODUCT_COPY_FILES))
 
-#Disable memcpy_base.S optimization
-TARGET_CPU_MEMCPY_BASE_OPT_DISABLE := true
-
-# QCRIL
+# RIL
 TARGET_RIL_VARIANT := caf
-SIM_COUNT := 2
-TARGET_GLOBAL_CFLAGS += -DANDROID_MULTI_SIM
-TARGET_GLOBAL_CPPFLAGS += -DANDROID_MULTI_SIM
-
-COMMON_GLOBAL_CFLAGS += -DQCOM_MEDIA_DISABLE_BUFFER_SIZE_CHECK
+COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
+COMMON_GLOBAL_CPPFLAGS += -DNO_SECURE_DISCARD
+PROTOBUF_SUPPORTED := true
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := X9180,V9180,U9180,N9180,x9180,v9180,u9180,n9180
-
+TARGET_OTA_ASSERT_DEVICE := X9180,N9180,U9180,x9180,n9180,u9180
 # Kernel
 BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
-TARGET_KERNEL_CONFIG := msm8926-ne501j_defconfig
-
-# Init
-TARGET_INIT_VENDOR_LIB := libinit_msm
-TARGET_LIBINIT_DEFINES_FILE := $(LOCAL_PATH)/init/init_x9180.c
-TARGET_UNIFIED_DEVICE := true
 
 # Partitions
-BOARD_BOOTIMAGE_PARTITION_SIZE := 12582912
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 12582912
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1048576000
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 1992294400
+BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 25165824
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610612736
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 12738083840
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/recovery.fstab
-
 BOARD_VENDOR := zte-qcom
 
-TARGET_SPECIFIC_HEADER_PATH := device/zte/x9180/include
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := MSM8226
+TARGET_NO_BOOTLOADER := true
+TARGET_NO_RADIOIMAGE := true
 
 # Platform
 TARGET_BOARD_PLATFORM := msm8226
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno305
+USE_CLANG_PLATFORM_BUILD := true
 
 # Architecture
 TARGET_ARCH := arm
@@ -67,21 +60,59 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_VARIANT := krait
-ARCH_ARM_HAVE_TLS_REGISTER := true
+TARGET_USE_QCOM_BIONIC_OPTIMIZATION := true
 
-TARGET_GLOBAL_CFLAGS += -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=softfp
 
-#TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
-#TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
+# Kernel
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 androidboot.selinux=permissive
+BOARD_KERNEL_SEPARATED_DT := true
+BOARD_KERNEL_BASE := 0x00000000
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01E00000
+TARGET_KERNEL_SOURCE := kernel/NUBIA/MSM8226
+TARGET_KERNEL_ARCH := arm
+TARGET_KERNEL_CONFIG := msm8926-ne501j_defconfig
 
-# Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := MSM8226
-TARGET_NO_BOOTLOADER := true
-TARGET_NO_RADIOIMAGE := true
+# Power
+TARGET_POWERHAL_VARIANT := qcom
+
+# Audio
+BOARD_USES_ALSA_AUDIO := true
+AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
+AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
+AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
+AUDIO_FEATURE_ENABLED_ANC_HEADSET := true
+AUDIO_FEATURE_ENABLED_LOW_LATENCY_CAPTURE := true
+AUDIO_FEATURE_ENABLED_HWDEP_CAL := true
+USE_CUSTOM_AUDIO_POLICY := 1
+
+# FM
+#QCOM_FM_ENABLED := true
+#AUDIO_FEATURE_ENABLED_FM := true
+AUDIO_FEATURE_ENABLED_FM_POWER_OPT := true
+
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_QCOM := true
+BLUETOOTH_HCI_USE_MCT := true
+QCOM_BT_USE_SMD_TTY := true
 
 # Enables Adreno RS driver
+USE_OPENGL_RENDERER := true
+NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+TARGET_USES_C2D_COMPOSITION := true
+TARGET_USES_ION := true
+TARGET_USES_NEW_ION_API :=true
+TARGET_USES_OVERLAY := true
 OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
+HAVE_ADRENO_SOURCE:= false
+VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
+SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
+TARGET_USES_QCOM_BSP := true
+BOARD_USES_OPENSSL_SYMBOLS := true
+#TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
+TARGET_USE_COMPAT_GRALLOC_PERFORM := true
 
 # Shader cache config options
 # Maximum size of the  GLES Shaders that can be cached for reuse.
@@ -93,50 +124,28 @@ MAX_EGL_CACHE_KEY_SIZE := 12*1024
 # of the device.
 MAX_EGL_CACHE_SIZE := 2048*1024
 
-# Kernel
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=22 msm_rtb.filter=0x37 androidboot.bootdevice=msm_sdcc.1
-BOARD_KERNEL_BASE := 0x0000000
-BOARD_KERNEL_PAGESIZE := 2048
-BOARD_KERNEL_SEPARATED_DT := true
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x2000000 --tags_offset 0x1e00000
-TARGET_KERNEL_SOURCE := kernel/zte/x9180
-
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
 
-# Ant
-# or qualcomm-uart ?
-BOARD_ANT_WIRELESS_DEVICE := "qualcomm-smd"
-
-# Audio
-BOARD_USES_ALSA_AUDIO := true
-AUDIO_FEATURE_ENABLED_FM := true
-AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
-AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
-AUDIO_FEATURE_ENABLED_ANC_HEADSET := true
-
-# FM
-TARGET_QCOM_NO_FM_FIRMWARE := true
-
-# Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
-BOARD_HAVE_BLUETOOTH := true
-BOARD_HAVE_BLUETOOTH_QCOM := true
-BLUETOOTH_HCI_USE_MCT := true
+# Ant or qualcomm-uart ?
+BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
-TARGET_PROVIDES_CAMERA_HAL := true
+COMMON_GLOBAL_CFLAGS += -DCAMERA_VENDOR_L_COMPAT
+
+# Boot animation
+TARGET_BOOTANIMATION_MULTITHREAD_DECODE := true
+
+# RPC
+TARGET_NO_RPC := true
 
 # MKHW
-BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/mkhw/
-
-# Display
-BOARD_EGL_CFG := $(LOCAL_PATH)/etc/egl.cfg
-NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
-TARGET_USES_C2D_COMPOSITION := true
-TARGET_USES_ION := true
-USE_OPENGL_RENDERER := true
+TARGET_TAP_TO_WAKE_NODE := "/data/tp/easy_wakeup_gesture"
+BOARD_USES_MOKEE_HARDWARE := true
+BOARD_HARDWARE_CLASS += \
+    hardware/mokee/mkhw \
+    device/NUBIA/X9180/mkhw
 
 # Encryption
 TARGET_HW_DISK_ENCRYPTION := true
@@ -144,16 +153,11 @@ TARGET_HW_DISK_ENCRYPTION := true
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
-# Gps
-TARGET_GPS_HAL_PATH := $(LOCAL_PATH)/gps
-TARGET_PROVIDES_GPS_LOC_API := true
-
-# Power
-TARGET_POWERHAL_VARIANT := qcom
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(LOCAL_PATH)/power/power_ext.c
-
 # Charger
 BOARD_CHARGER_SHOW_PERCENTAGE := true
+BOARD_CHARGER_ENABLE_SUSPEND := true
+#BOARD_CHARGER_DISABLE_INIT_BLANK := true
+BACKLIGHT_PATH := /sys/class/leds/lcd-backlight/brightness
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072
@@ -162,37 +166,6 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_USES_QCOM_HARDWARE := true
 BOARD_USES_QC_TIME_SERVICES := true
 USE_DEVICE_SPECIFIC_QCOM_PROPRIETARY:= true
-
-# Recovery
-BOARD_SUPPRESS_EMMC_WIPE := true
-BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_RECOVERY_SWIPE := true
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
-
-# SELinux
--include device/qcom/sepolicy/sepolicy.mk
-
-BOARD_SEPOLICY_DIRS += \
-    device/zte/x9180/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-    servicemanager.te \
-    dnsmasq.te \
-    wpa.te \
-    debuggerd.te \
-    sysinit.te \
-    kernel.te \
-    untrusted_app.te \
-    platform_app.te \
-    healthd.te \
-    installd.te
-
-# Vold
-BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
-BOARD_VOLD_MAX_PARTITIONS := 40
-TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
 
 # Wifi
 TARGET_USES_WCNSS_CTRL := true
@@ -207,7 +180,21 @@ WIFI_DRIVER_FW_PATH_STA := "sta"
 WIFI_DRIVER_FW_PATH_AP := "ap"
 TARGET_USES_QCOM_WCNSS_QMI := true
 TARGET_PROVIDES_WCNSS_QMI := true
-BOARD_HAS_QCOM_WLAN_SDK := true
 
-# inherit from the proprietary version
--include vendor/zte/x9180/BoardConfigVendor.mk
+# Recovery
+BOARD_SUPPRESS_EMMC_WIPE := true
+BOARD_HAS_NO_SELECT_BUTTON := true
+BOARD_RECOVERY_SWIPE := true
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
+
+# dex-preoptimization to speed up first boot sequence
+WITH_DEXPREOPT := false
+
+SKIP_BOOT_JARS_CHECK := true
+
+# SELinux
+include device/qcom/sepolicy/sepolicy.mk
+BOARD_SEPOLICY_DIRS += device/NUBIA/X9180/sepolicy
+
