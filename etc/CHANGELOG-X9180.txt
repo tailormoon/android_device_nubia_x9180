@@ -1,0 +1,167 @@
+====================
+     01-13-2017
+====================
+
+
+   * device/NUBIA/X9180/
+97e7143 Update .gitignore
+9c3f66f fix camera and Generate changelog before build
+6e60bd9 update to mkm
+
+   * vendor/NUBIA/NX404H/
+aa78452 Update NX404H-vendor-blobs.mk
+5c5bef3 first commit
+
+   * vendor/NUBIA/X9180/
+2b7ffef update for camera
+20ed406 fix camera
+f1d4d62 fix
+b199403 update to mkm
+
+====================
+     01-12-2017
+====================
+
+
+   * device/NUBIA/NX404H/
+fbf5169 first commit
+
+   * external/mokee/MoKeeHelper/
+a3813f1 Automatic translation import
+
+   * external/mokee/ServerController/
+548b89a add infos of Galaxy S7 Flat and Edge
+
+   * frameworks/base/
+bdd770e Automatic translation import
+
+   * kernel/NUBIA/MSM8226/
+3b56541 mm-6.0 kernel (update security)
+
+   * packages/apps/Aegis/
+fa9e90c Automatic translation import
+
+   * packages/apps/Browser/
+04dfe1d Automatic translation import
+
+   * packages/apps/CMFileManager/
+692f9a9 Automatic translation import
+
+   * packages/apps/DeskClock/
+d972936 Automatic translation import
+
+   * packages/apps/Dialer/
+15a599e Automatic translation import
+
+   * packages/apps/Eleven/
+cd4a2f5 Automatic translation import
+
+   * packages/apps/InCallUI/
+13fee12 Automatic translation import
+
+   * packages/apps/LockClock/
+7bac94f Automatic translation import
+
+   * packages/apps/Messaging/
+8a94fb3 Automatic translation import
+
+   * packages/apps/MoKeeSetupWizard/
+76b0144 Automatic translation import
+
+   * packages/apps/PackageInstaller/
+2755efb Automatic translation import
+
+   * packages/apps/Settings/
+2aa90ca Automatic translation import
+
+   * packages/apps/ThemeChooser/
+68a9258 Automatic translation import
+
+   * packages/apps/ViPER4Android/
+f85ef8a Automatic translation import
+
+   * packages/providers/WeatherProvider/
+e2d39c6 Automatic translation import
+
+   * vendor/mksdk/
+f8396fb Automatic translation import
+
+====================
+     01-11-2017
+====================
+
+
+   * external/mokee/ServerController/
+5a0ffde update G3 dual-sim info
+
+====================
+     01-10-2017
+====================
+
+
+   * build/
+b483c42 Merge branch 'remote' into mkm
+8cd2bcb build: support lineage device trees
+
+   * cts/
+1a0f2b2 merge in marshmallow-cts-release history after reset to marshmallow-cts-dev
+c7b61a0 Merge "Reland WebViewClientTest testOnReceivedLoginRequest test fix" into marshmallow-cts-dev
+
+   * external/mokee/MoKeeHelper/
+7fbc7c0 Automatic translation import
+
+   * frameworks/base/
+6d594bf Merge "Automatic translation import" into mkm
+ff90259 Automatic translation import
+
+   * packages/apps/Browser/
+32e838b Automatic translation import
+
+   * packages/apps/DeskClock/
+e6fb98a Automatic translation import
+
+   * packages/apps/Dialer/
+216077a Automatic translation import
+
+   * packages/apps/InCallUI/
+41c26b5 Automatic translation import
+
+   * packages/apps/MoKeeSetupWizard/
+5bd52d9 Automatic translation import
+
+   * packages/apps/OneStep/
+b67497e Automatic translation import
+
+   * packages/apps/Settings/
+00592b8 Merge "Automatic translation import" into mkm
+b272dba Automatic translation import
+8b28c0d Merge branch 'remote' into mkm
+
+   * packages/apps/ViPER4Android/
+138e5d2 Automatic translation import
+
+   * vendor/mksdk/
+2fd252a Automatic translation import
+
+====================
+     01-09-2017
+====================
+
+
+   * build/
+ef2f853 Merge branch 'remote' into mkm
+bb05c8f core: move platform-specific helper macros to target makefiles
+b0637e7 build: envsetup: Update CAF remote
+f4d20d1 build: qcom_target: Define MSM_VIDC_TARGET_LIST
+bafbd7a build: qcom_target: Clean up QCOM_HARDWARE_VARIANT checks
+
+   * external/mokee/BuildController/
+64c096d add nx523j to build targets
+
+   * external/mokee/ServerController/
+e666485 nx523j: Drep
+381a9fc add nx523j
+
+   * packages/apps/Settings/
+8535ca7 Settings: CMStats: use new server-side API
+

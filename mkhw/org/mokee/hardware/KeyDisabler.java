@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2015 The CyanogenMod Project
- * Copyright (C) 2015 The MoKee Open Source Project
+ * Copyright (C) 2014 The MoKee OpenSource Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +16,9 @@
 
 package org.mokee.hardware;
 
-import org.mokee.internal.util.FileUtils;
+import org.mokee.hardware.util.FileUtils;
+
+import java.io.File;
 
 /*
  * Disable capacitive keys
@@ -30,18 +31,32 @@ import org.mokee.internal.util.FileUtils;
 
 public class KeyDisabler {
 
-    private static String CONTROL_PATH = "/sys/devices/f9924000.i2c/i2c-2/2-005d/keypad_enable";
+    /*
+     * All HAF classes should export this boolean.
+     * Real implementations must, of course, return true
+     */
 
-    public static boolean isSupported() { 
-        return FileUtils.isFileWritable(CONTROL_PATH);
+    private static final String KEYS_ENABLED_FILE = "/sys/devices/f9927000.i2c/i2c-5/5-005d/keys_enabled";
+
+    public static boolean isSupported() {
+        File file = new File(KEYS_ENABLED_FILE);
+        return file.exists();
     }
+
+    /*
+     * Are the keys currently blocked?
+     */
 
     public static boolean isActive() {
-        return (FileUtils.readOneLine(CONTROL_PATH).equals("0"));
+        return FileUtils.readOneLine(KEYS_ENABLED_FILE).equals("0");
     }
 
+    /*
+     * Disable capacitive keys
+     */
+
     public static boolean setActive(boolean state) {
-        return FileUtils.writeLine(CONTROL_PATH, (state ? "0" : "1"));
+        return FileUtils.writeLine(KEYS_ENABLED_FILE, String.valueOf(state?0:1));
     }
 
 }

@@ -141,11 +141,8 @@ TARGET_BOOTANIMATION_MULTITHREAD_DECODE := true
 TARGET_NO_RPC := true
 
 # MKHW
-TARGET_TAP_TO_WAKE_NODE := "/data/tp/easy_wakeup_gesture"
-BOARD_USES_MOKEE_HARDWARE := true
-BOARD_HARDWARE_CLASS += \
-    hardware/mokee/mkhw \
-    device/NUBIA/X9180/mkhw
+BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/mkhw/
+
 
 # Encryption
 TARGET_HW_DISK_ENCRYPTION := true
